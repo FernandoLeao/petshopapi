@@ -1,4 +1,6 @@
-﻿using PestSchedule.Domain.Common;
+﻿using Microsoft.EntityFrameworkCore.Infrastructure;
+using PestSchedule.Domain.Common;
+using System;
 using System.Collections.Generic;
 
 namespace PestSchedule.Domain.Entities
@@ -11,10 +13,21 @@ namespace PestSchedule.Domain.Entities
             Schedules = new HashSet<Schedule>();
         }
 
+        private ILazyLoader LazyLoader { get; set; }
+        private Animal(ILazyLoader lazyLoader)
+        {
+            LazyLoader = lazyLoader;
+        }
+
         public string Name { get; set; }
         public int Age { get; set; }
         public int AnimalTypeId { get; set; }
-        public AnimalType AnimalType { get; set; }
+
+        private AnimalType _animalType;
+        public AnimalType AnimalType {
+            get => LazyLoader.Load(this, ref _animalType);
+            set => _animalType = value;
+        }
         public bool IsOldAnimal { get { return Age > AnimalType.AgeConsideredOld; } }
 
         public int CustomerId { get; set; }

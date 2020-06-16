@@ -47,7 +47,8 @@ namespace PetSchedule.Persistence
 
             var optionsBuilder = new DbContextOptionsBuilder<TContext>();
 
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseSqlServer(connectionString)
+                .UseLazyLoadingProxies();
 
             return CreateNewInstance(optionsBuilder.Options);
         }

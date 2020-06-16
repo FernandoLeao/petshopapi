@@ -14,6 +14,8 @@ namespace PestSchedule.Application.Animal.Queries.GetAnimalsByCustomerId
         public int AnimalTypeId { get; set; }
         public int CustomerId { get; set; }
 
+        public bool IsOldAnimal { get; set; }
+
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Domain.Entities.Animal, AnimalDto>();
